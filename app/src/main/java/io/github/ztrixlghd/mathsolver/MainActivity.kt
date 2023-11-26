@@ -1,43 +1,28 @@
 package io.github.ztrixlghd.mathsolver
 
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import io.github.ztrixlghd.mathsolver.ui.theme.MathsolverTheme
+
+import io.github.ztrixlghd.mathsolver.Solve
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            MathsolverTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Greeting("Android")
-                }
+        setContentView(R.layout.activity_main)
+
+        val problem: EditText = findViewById(R.id.problem)
+        val solve_btn: Button = findViewById(R.id.solve_btn)
+
+        solve_btn.setOnClickListener {
+            val solveCLient = Solve()
+            val newProblem = solveCLient.AnalyzeProblem(problem.text.toString())
+            if (newProblem.isSimpleProblem == true) {
+                println(solveCLient.SolveSimpleProblem(newProblem))
             }
+            println(newProblem)
         }
-    }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-            text = "Hello $name!",
-            modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MathsolverTheme {
-        Greeting("Android")
     }
 }
